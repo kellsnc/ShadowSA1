@@ -3,5 +3,6 @@
 
 #include "framework.h"
 #include "SADXModLoader.h"
+#include "Trampoline.h"
 
 #endif
