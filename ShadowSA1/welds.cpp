@@ -49,7 +49,9 @@ void InitShadowWeldInfo();
 Trampoline InitSonicWeldInfo_t((int)InitSonicWeldInfo, (int)InitSonicWeldInfo + 0x5, InitShadowWeldInfo);
 void InitShadowWeldInfo() {
 	VoidFunc(original, InitSonicWeldInfo_t.Target());
-	original(); // For Super Sonic and special weld types, for compatibility with other mods
+	original(); // For Metal Sonic compatibility with other mods
+
+	// Sonic
 
 	SonicWeldInfo[0].BaseModel = SONIC_OBJECTS[0];
 	SonicWeldInfo[0].ModelA = SONIC_OBJECTS[1];
@@ -185,4 +187,139 @@ void InitShadowWeldInfo() {
 	SonicWeldInfo[14].anonymous_5 = 0;
 	SonicWeldInfo[14].VertexBuffer = 0;
 	SonicWeldInfo[14].VertIndexes = Shadow_LowerArmIndices;
+
+	// Super Sonic
+
+	SonicWeldInfo[22].BaseModel = SONIC_OBJECTS[22];
+	SonicWeldInfo[22].ModelA = SONIC_OBJECTS[23];
+	SonicWeldInfo[22].ModelB = SONIC_OBJECTS[24];
+	SonicWeldInfo[22].VertexPairCount = (uint8_t)(LengthOfArray(Shadow_UpperArmIndices) / 2);
+	SonicWeldInfo[22].WeldType = 2;
+	SonicWeldInfo[22].anonymous_5 = 0;
+	SonicWeldInfo[22].VertexBuffer = 0;
+	SonicWeldInfo[22].VertIndexes = Shadow_UpperArmIndices;
+
+	SonicWeldInfo[23].BaseModel = SONIC_OBJECTS[22];
+	SonicWeldInfo[23].ModelA = SONIC_OBJECTS[24];
+	SonicWeldInfo[23].ModelB = SONIC_OBJECTS[25];
+	SonicWeldInfo[23].VertexPairCount = (uint8_t)(LengthOfArray(Shadow_LowerArmIndices) / 2);
+	SonicWeldInfo[23].WeldType = 2;
+	SonicWeldInfo[23].anonymous_5 = 0;
+	SonicWeldInfo[23].VertexBuffer = 0;
+	SonicWeldInfo[23].VertIndexes = Shadow_LowerArmIndices;
+
+	SonicWeldInfo[24].BaseModel = SONIC_OBJECTS[22];
+	SonicWeldInfo[24].ModelA = SONIC_OBJECTS[28];
+	SonicWeldInfo[24].ModelB = SONIC_OBJECTS[29];
+	SonicWeldInfo[24].VertexPairCount = (uint8_t)(LengthOfArray(Shadow_UpperArmIndices) / 2);
+	SonicWeldInfo[24].WeldType = 2;
+	SonicWeldInfo[24].anonymous_5 = 0;
+	SonicWeldInfo[24].VertexBuffer = 0;
+	SonicWeldInfo[24].VertIndexes = Shadow_UpperArmIndices;
+
+	SonicWeldInfo[25].BaseModel = SONIC_OBJECTS[22];
+	SonicWeldInfo[25].ModelA = SONIC_OBJECTS[29];
+	SonicWeldInfo[25].ModelB = SONIC_OBJECTS[30];
+	SonicWeldInfo[25].VertexPairCount = (uint8_t)(LengthOfArray(Shadow_LowerArmIndices) / 2);
+	SonicWeldInfo[25].WeldType = 2;
+	SonicWeldInfo[25].anonymous_5 = 0;
+	SonicWeldInfo[25].VertexBuffer = 0;
+	SonicWeldInfo[25].VertIndexes = Shadow_LowerArmIndices;
+
+	SonicWeldInfo[26].BaseModel = SONIC_OBJECTS[22];
+	SonicWeldInfo[26].ModelA = SONIC_OBJECTS[33];
+	SonicWeldInfo[26].ModelB = SONIC_OBJECTS[34];
+	SonicWeldInfo[26].VertexPairCount = (uint8_t)(LengthOfArray(Shadow_UpperLegIndices) / 2);
+	SonicWeldInfo[26].WeldType = 2;
+	SonicWeldInfo[26].anonymous_5 = 0;
+	SonicWeldInfo[26].VertexBuffer = 0;
+	SonicWeldInfo[26].VertIndexes = Shadow_UpperLegIndices;
+
+	SonicWeldInfo[27].BaseModel = SONIC_OBJECTS[22];
+	SonicWeldInfo[27].ModelA = SONIC_OBJECTS[34];
+	SonicWeldInfo[27].ModelB = SONIC_OBJECTS[35];
+	SonicWeldInfo[27].VertexPairCount = (uint8_t)(LengthOfArray(Shadow_LowerLegIndices) / 2);
+	SonicWeldInfo[27].WeldType = 2;
+	SonicWeldInfo[27].anonymous_5 = 0;
+	SonicWeldInfo[27].VertexBuffer = 0;
+	SonicWeldInfo[27].VertIndexes = Shadow_LowerLegIndices;
+
+	SonicWeldInfo[28].BaseModel = SONIC_OBJECTS[22];
+	SonicWeldInfo[28].ModelA = SONIC_OBJECTS[38];
+	SonicWeldInfo[28].VertIndexes = Shadow_UpperLegIndices;
+	SonicWeldInfo[28].ModelB = SONIC_OBJECTS[39];
+	SonicWeldInfo[28].VertexPairCount = (uint8_t)(LengthOfArray(Shadow_UpperLegIndices) / 2);
+	SonicWeldInfo[28].WeldType = 2;
+	SonicWeldInfo[28].anonymous_5 = 0;
+	SonicWeldInfo[28].VertexBuffer = 0;
+
+	SonicWeldInfo[29].BaseModel = SONIC_OBJECTS[22];
+	SonicWeldInfo[29].ModelA = SONIC_OBJECTS[39];
+	SonicWeldInfo[29].ModelB = SONIC_OBJECTS[40];
+	SonicWeldInfo[29].VertexPairCount = (uint8_t)(LengthOfArray(Shadow_LowerLegIndices) / 2);
+	SonicWeldInfo[29].WeldType = 2;
+	SonicWeldInfo[29].anonymous_5 = 0;
+	SonicWeldInfo[29].VertexBuffer = 0;
+	SonicWeldInfo[29].VertIndexes = Shadow_LowerLegIndices;
+
+	SonicWeldInfo[30].BaseModel = SONIC_OBJECTS[22];
+	SonicWeldInfo[30].ModelA = SONIC_OBJECTS[36];
+	SonicWeldInfo[30].ModelB = SONIC_OBJECTS[37];
+	SonicWeldInfo[30].VertexPairCount = (uint8_t)(LengthOfArray(Shadow_ShoeIndices) / 2);
+	SonicWeldInfo[30].WeldType = 2;
+	SonicWeldInfo[30].anonymous_5 = 0;
+	SonicWeldInfo[30].VertexBuffer = 0;
+	SonicWeldInfo[30].VertIndexes = Shadow_ShoeIndices;
+
+	SonicWeldInfo[31].BaseModel = SONIC_OBJECTS[22];
+	SonicWeldInfo[31].ModelA = SONIC_OBJECTS[41];
+	SonicWeldInfo[31].ModelB = SONIC_OBJECTS[42];
+	SonicWeldInfo[31].VertexPairCount = (uint8_t)(LengthOfArray(Shadow_ShoeIndices) / 2);
+	SonicWeldInfo[31].WeldType = 2;
+	SonicWeldInfo[31].anonymous_5 = 0;
+	SonicWeldInfo[31].VertexBuffer = 0;
+	SonicWeldInfo[31].VertIndexes = Shadow_ShoeIndices;
+
+	SonicWeldInfo[32].BaseModel = SONIC_OBJECTS[22];
+	SonicWeldInfo[32].ModelA = SONIC_OBJECTS[31];
+	SonicWeldInfo[32].ModelB = SONIC_OBJECTS[32];
+	SonicWeldInfo[32].VertexPairCount = (uint8_t)(LengthOfArray(Shadow_HandIndices) / 2);
+	SonicWeldInfo[32].WeldType = 2;
+	SonicWeldInfo[32].anonymous_5 = 0;
+	SonicWeldInfo[32].VertexBuffer = 0;
+	SonicWeldInfo[32].VertIndexes = Shadow_HandIndices;
+
+	SonicWeldInfo[33].BaseModel = SONIC_OBJECTS[22];
+	SonicWeldInfo[33].ModelA = SONIC_OBJECTS[26];
+	SonicWeldInfo[33].anonymous_5 = 0;
+	SonicWeldInfo[33].VertexBuffer = 0;
+	SonicWeldInfo[33].VertIndexes = Shadow_HandIndices;
+	SonicWeldInfo[33].ModelB = SONIC_OBJECTS[27];
+	SonicWeldInfo[33].VertexPairCount = (uint8_t)(LengthOfArray(Shadow_HandIndices) / 2);
+	SonicWeldInfo[33].WeldType = 2;
+
+	SonicWeldInfo[34].BaseModel = SONIC_OBJECTS[22];
+	SonicWeldInfo[34].ModelA = SONIC_OBJECTS[31];
+	SonicWeldInfo[34].ModelB = SONIC_OBJECTS[32];
+	SonicWeldInfo[34].anonymous_5 = 0;
+	SonicWeldInfo[34].VertexBuffer = 0;
+	SonicWeldInfo[34].VertexPairCount = (uint8_t)(LengthOfArray(Shadow_HandIndices) / 2);
+	SonicWeldInfo[34].VertIndexes = Shadow_HandIndices;
+	SonicWeldInfo[34].WeldType = 2;
+
+	SonicWeldInfo[35].BaseModel = SONIC_OBJECTS[22];
+	SonicWeldInfo[35].ModelA = SONIC_OBJECTS[26];
+	SonicWeldInfo[35].anonymous_5 = 0;
+	SonicWeldInfo[35].VertexBuffer = 0;
+	SonicWeldInfo[35].VertIndexes = Shadow_HandIndices;
+	SonicWeldInfo[35].VertexPairCount = (uint8_t)(LengthOfArray(Shadow_HandIndices) / 2);
+	SonicWeldInfo[35].ModelB = SONIC_OBJECTS[27];
+	SonicWeldInfo[35].WeldType = 2;
+
+	SonicWeldInfo[36].BaseModel = 0;
+	SonicWeldInfo[36].ModelA = 0;
+	SonicWeldInfo[36].ModelB = 0;
+	SonicWeldInfo[36].VertexPairCount = 0;
+	SonicWeldInfo[36].VertexBuffer = 0;
+	SonicWeldInfo[36].VertIndexes = 0;
 }

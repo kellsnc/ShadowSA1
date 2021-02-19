@@ -2,6 +2,10 @@
 
 void Tornado_init(const HelperFunctions& helperFunctions);
 
+void SetLSDColor() {
+	SetMaterialAndSpriteColor_Float(0.8f, 0.96f, 0.4f, 0.f);
+}
+
 extern "C"
 {
 	__declspec(dllexport) void __cdecl Init(const char* path, const HelperFunctions& helperFunctions)
@@ -16,6 +20,8 @@ extern "C"
 		WriteData<3>((void*)0x493C5D, 0x90);
 		WriteData<3>((void*)0x4937A1, 0x90);
 		WriteData<3>((void*)0x4937A1, 0x90);
+
+		WriteCall((void*)0x4A1705, SetLSDColor);
 
 		if (config->getBool("", "Tornado", true)) {
 			Tornado_init(helperFunctions);
