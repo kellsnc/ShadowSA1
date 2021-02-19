@@ -51,6 +51,12 @@ void InitShadowWeldInfo() {
 	VoidFunc(original, InitSonicWeldInfo_t.Target());
 	original(); // For Metal Sonic compatibility with other mods
 
+	// Hand fix (The Mod Loader's chrmodels replacement system does that wrong)
+
+	SONIC_OBJECTS[4] = SONIC_OBJECTS[0]->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling;
+	SONIC_OBJECTS[5] = SONIC_OBJECTS[0]->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->child->sibling;
+	SONIC_OBJECTS[63]->sibling = SONIC_OBJECTS[4];
+
 	// Sonic
 
 	SonicWeldInfo[0].BaseModel = SONIC_OBJECTS[0];
