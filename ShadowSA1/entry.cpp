@@ -12,6 +12,9 @@ extern "C"
 	{
 		const IniFile* config = new IniFile(std::string(path) + "\\config.ini");
 
+		// Resize sonic's texlist, fixes initialization with testspawn.
+		SONIC_TEXLIST.nbTexture = 14;
+
 		// Disable shoe morphs
 		WriteData<3>((void*)0x493722, 0x90);
 		WriteData<3>((void*)0x4936EA, 0x90);
