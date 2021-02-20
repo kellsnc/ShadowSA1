@@ -1,9 +1,18 @@
 #include "pch.h"
 
 void Tornado_init(const HelperFunctions& helperFunctions);
+DataPointer(NJS_OBJECT, SonicPointingHand_Object, 0x2DD8708);
 
 void SetLSDColor() {
 	SetMaterialAndSpriteColor_Float(0.8f, 0.96f, 0.4f, 0.f);
+}
+
+void PointingFinger_Init(const HelperFunctions& helperFunctions) {
+	ModelInfo* mdl = new ModelInfo(helperFunctions.GetReplaceablePath("system\\SHADOW_POINTINGHAND.sa1mdl"));
+
+	if (mdl->getformat() == ModelFormat_Basic) {
+		SonicPointingHand_Object = *mdl->getmodel();
+	}
 }
 
 extern "C"
@@ -24,8 +33,13 @@ extern "C"
 		WriteData<3>((void*)0x4937A1, 0x90);
 		WriteData<3>((void*)0x4937A1, 0x90);
 
+		// Replace the light speed dash aura color
 		WriteCall((void*)0x4A1705, SetLSDColor);
 
+		// Replace the pointing finger model that's used in cutscenes
+		PointingFinger_Init(helperFunctions);
+
+		// Replace low-poly Sonic on the Tornado by low-poly Shadow
 		if (config->getBool("", "Tornado", true)) {
 			Tornado_init(helperFunctions);
 		}
