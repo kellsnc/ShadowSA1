@@ -41,5 +41,8 @@
     <ClCompile Include="events.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="anims.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

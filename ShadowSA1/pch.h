@@ -6,5 +6,6 @@
 #include "Trampoline.h"
 #include "IniFile.hpp"
 #include "ModelInfo.h"
+#include "AnimationFile.h"
 
 #endif

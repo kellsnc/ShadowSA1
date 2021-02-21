@@ -10,12 +10,12 @@ void __cdecl Sonic_Main_r(ObjectMaster* obj) {
 	original(obj);
 };
 
-//void __cdecl sub_4310D0_r(ObjectMaster* obj, const char* list);
-//Trampoline sub_4310D0_t(0x4310D0, 0x4310D6, sub_4310D0_r);
-//void __cdecl sub_4310D0_r(ObjectMaster* obj, const char* list) {
-//	NonStaticFunctionPointer(void, original, (ObjectMaster * obj, const char* list), sub_4310D0_t.Target());
-//	
-//	if (obj->Data1->CharID != Characters_Sonic) {
-//		original(obj, list);
-//	}
-//};
+void __cdecl sub_4310D0_r(ObjectMaster* obj, const char* list);
+Trampoline sub_4310D0_t(0x4310D0, 0x4310D6, sub_4310D0_r);
+void __cdecl sub_4310D0_r(ObjectMaster* obj, const char* list) {
+	NonStaticFunctionPointer(void, original, (ObjectMaster * obj, const char* list), sub_4310D0_t.Target());
+	
+	if (obj->Data1->CharID != Characters_Sonic) {
+		original(obj, list);
+	}
+};

@@ -1,6 +1,8 @@
 #include "pch.h"
 
+void ReplaceAnims(const char* path);
 void Tornado_init(const HelperFunctions& helperFunctions);
+
 DataPointer(NJS_OBJECT, SonicPointingHand_Object, 0x2DD8708);
 
 void SetLSDColor() {
@@ -38,6 +40,9 @@ extern "C"
 
 		// Replace the pointing finger model that's used in cutscenes
 		PointingFinger_Init(helperFunctions);
+
+		// Because the ini replacement doesn't work
+		ReplaceAnims(path);
 
 		// Replace low-poly Sonic on the Tornado by low-poly Shadow
 		if (config->getBool("", "Tornado", true)) {
