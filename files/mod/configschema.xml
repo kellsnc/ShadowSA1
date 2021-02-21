@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<ConfigSchema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.sonicretro.org">
+  <Groups>
+    <Group name="">
+      <Property name="Tornado" type="bool" defaultvalue="True" display="Enable Tornado changes (beta)" />
+    </Group>
+  </Groups>
+</ConfigSchema>

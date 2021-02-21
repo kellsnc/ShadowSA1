@@ -1,0 +1,10 @@
+Mod authors:
+Kell (models, code)
+Sora (animations)
+
+Special thanks:
+SA Tools developers
+Mod Loader libraries
+
+Copyright:
+SEGA & Sonic Team (original models, textures and sounds)
