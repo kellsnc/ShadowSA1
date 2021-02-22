@@ -1,7 +1,5 @@
 #include "pch.h"
 
-DataArray(NJS_ACTION*, SonicCharSelActions, 0x3C5FF94, 4);
-
 void __cdecl InitShadowAnimData();
 Trampoline InitSonicAnimData_t((int)InitSonicAnimData, (int)InitSonicAnimData + 0x5, InitShadowAnimData);
 void __cdecl InitShadowAnimData() {

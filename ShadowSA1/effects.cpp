@@ -20,6 +20,19 @@ void __cdecl Air_CallBack(NJS_MODEL_SADX* model, int a2, int a3) {
 	NodeCount += 1;
 }
 
+void DrawShadowAir(EntityData1* data1, NJS_ACTION* action, Float frame) {
+	NodeCount = 0;
+
+	njPushMatrixEx();
+	njSetTexture(&SONIC_TEXLIST);
+	njTranslateEx(&data1->CollisionInfo->CollisionArray->center);
+	njRotateZ(0, data1->Rotation.z);
+	njRotateX(0, data1->Rotation.x);
+	njRotateY(0, -0x8000 - data1->Rotation.y);
+	DisplayAnimationFrame(action, frame, (QueuedModelFlagsB)0, 0.0f, Air_CallBack);
+	njPopMatrixEx();
+}
+
 void Sonic_Display_r(ObjectMaster* obj);
 Trampoline Sonic_Display_t((int)Sonic_Display, (int)Sonic_Display + 0x7, Sonic_Display_r);
 void Sonic_Display_r(ObjectMaster* obj) {
@@ -27,21 +40,19 @@ void Sonic_Display_r(ObjectMaster* obj) {
 	original(obj);
 
 	if (ShadowAir_Object) {
-		EntityData1* data1 = obj->Data1;
 		EntityData2* data2 = (EntityData2*)obj->Data2;
 		CharObj2* co2 = data2->CharacterData;
+		eventwk* ev = (eventwk*)obj->Data1->field_3C;
 		
-		if (co2->AnimationThing.Index == 11 || co2->AnimationThing.Index == 12 || co2->AnimationThing.Index == 13) {
-			NodeCount = 0;
-
-			njPushMatrixEx();
-			njSetTexture(&SONIC_TEXLIST);
-			njTranslateEx(&data1->CollisionInfo->CollisionArray->center);
-			njRotateZ(0, data1->Rotation.z);
-			njRotateX(0, data1->Rotation.x);
-			njRotateY(0, -0x8000 - data1->Rotation.y);
-			DisplayAnimationFrame(co2->AnimationThing.AnimData[co2->AnimationThing.Index].Animation, co2->AnimationThing.Frame, (QueuedModelFlagsB)0, 0.0f, Air_CallBack);
-			njPopMatrixEx();
+		if (co2->AnimationThing.State == 2) {
+			if (co2->AnimationThing.action == SONIC_ACTIONS[5] || co2->AnimationThing.action == SONIC_ACTIONS[6] || co2->AnimationThing.action == SONIC_ACTIONS[18]) {
+				DrawShadowAir(obj->Data1, co2->AnimationThing.action, co2->AnimationThing.Frame);
+			}
+		}
+		else {
+			if (co2->AnimationThing.Index == 11 || co2->AnimationThing.Index == 12 || co2->AnimationThing.Index == 13) {
+				DrawShadowAir(obj->Data1, co2->AnimationThing.AnimData[co2->AnimationThing.Index].Animation, co2->AnimationThing.Frame);
+			}
 		}
 	}
 }
