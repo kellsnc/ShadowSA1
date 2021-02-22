@@ -1,9 +1,11 @@
 #include "pch.h"
 
-void InitShadowAnimData();
+DataArray(NJS_ACTION*, SonicCharSelActions, 0x3C5FF94, 4);
+
+void __cdecl InitShadowAnimData();
 Trampoline InitSonicAnimData_t((int)InitSonicAnimData, (int)InitSonicAnimData + 0x5, InitShadowAnimData);
-void InitShadowAnimData() {
-	VoidFunc(original, InitSonicAnimData_t.Target());
+void __cdecl InitShadowAnimData() {
+	NonStaticFunctionPointer(void, original, (), InitSonicAnimData_t.Target());
 	original();
 
 	SonicAnimData[11].AnimationSpeed = 0.4f;
@@ -17,4 +19,13 @@ void InitShadowAnimData() {
 	SonicAnimData[13].AnimationSpeed = 0.30f;
 	SonicAnimData[13].TransitionSpeed = 0.25f;
 	SonicAnimData[13].Property = 10;
+}
+
+void __cdecl InitShadowCharSelAnims();
+Trampoline InitSonicCharSelAnims_t((int)InitSonicCharSelAnims, (int)InitSonicCharSelAnims + 0x5, InitShadowCharSelAnims);
+void __cdecl InitShadowCharSelAnims() {
+	NonStaticFunctionPointer(void, original, (), InitSonicCharSelAnims_t.Target());
+	original();
+
+	SonicCharSelActions[0] = SONIC_ACTIONS[4];
 }
