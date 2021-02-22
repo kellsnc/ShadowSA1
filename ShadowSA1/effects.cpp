@@ -5,16 +5,16 @@ static int NodeCount = 0;
 
 void __cdecl Air_CallBack(NJS_MODEL_SADX* model, int a2, int a3) {
 	if (NodeCount == 23) {
-		njDrawModel_SADX(ShadowAir_Object->child->sibling->basicdxmodel);
+		DrawModel_QueueVisible(ShadowAir_Object->child->sibling->basicdxmodel, (QueuedModelFlagsB)0, 1.0f);
 	}
 	else if (NodeCount == 24) {
-		njDrawModel_SADX(ShadowAir_Object->child->sibling->sibling->basicdxmodel);
+		DrawModel_QueueVisible(ShadowAir_Object->child->sibling->sibling->basicdxmodel, (QueuedModelFlagsB)0, 1.0f);
 	}
 	else if (NodeCount == 18) {
-		njDrawModel_SADX(ShadowAir_Object->child->basicdxmodel);
+		DrawModel_QueueVisible(ShadowAir_Object->child->basicdxmodel, (QueuedModelFlagsB)0, 1.0f);
 	}
 	else if (NodeCount == 19) {
-		njDrawModel_SADX(ShadowAir_Object->child->sibling->sibling->sibling->basicdxmodel);
+		DrawModel_QueueVisible(ShadowAir_Object->child->sibling->sibling->sibling->basicdxmodel, (QueuedModelFlagsB)0, 1.0f);
 	}
 
 	NodeCount += 1;

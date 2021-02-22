@@ -20,12 +20,3 @@ void __cdecl InitShadowAnimData() {
 	SonicAnimData[13].TransitionSpeed = 0.25f;
 	SonicAnimData[13].Property = 10;
 }
-
-void __cdecl InitShadowCharSelAnims();
-Trampoline InitSonicCharSelAnims_t((int)InitSonicCharSelAnims, (int)InitSonicCharSelAnims + 0x5, InitShadowCharSelAnims);
-void __cdecl InitShadowCharSelAnims() {
-	NonStaticFunctionPointer(void, original, (), InitSonicCharSelAnims_t.Target());
-	original();
-
-	SonicCharSelActions[0] = SONIC_ACTIONS[4];
-}
