@@ -49,7 +49,10 @@ void Sonic_Display_r(ObjectMaster* obj) {
 void LoadAirModels(const char* path, const HelperFunctions& helperFunctions) {
 	ModelInfo* mdl = new ModelInfo(helperFunctions.GetReplaceablePath("system\\SHADOW_AIR.sa1mdl"));
 
-	if (mdl->getmodel()) {
+	if (mdl->getformat() == ModelFormat_Basic) {
 		ShadowAir_Object = mdl->getmodel();
+	}
+	else {
+		PrintDebug("[Shadow SA1] Cannot open \"SHADOW_AIR.sa1mdl\".\n");
 	}
 }
