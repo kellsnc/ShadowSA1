@@ -163,6 +163,7 @@
   <ItemGroup>
     <ClCompile Include="anims.cpp" />
     <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="effects.cpp" />
     <ClCompile Include="entry.cpp" />
     <ClCompile Include="events.cpp" />
     <ClCompile Include="pch.cpp">

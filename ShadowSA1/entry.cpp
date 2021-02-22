@@ -1,6 +1,7 @@
 #include "pch.h"
 
 void Tornado_init(const HelperFunctions& helperFunctions);
+void LoadAirModels(const char* path, const HelperFunctions& helperFunctions);
 
 DataPointer(NJS_OBJECT, SonicPointingHand_Object, 0x2DD8708);
 
@@ -40,6 +41,11 @@ extern "C"
 		// Replace the pointing finger model that's used in cutscenes
 		PointingFinger_Init(helperFunctions);
 
+		// Air effect under shoes
+		if (config->getBool("", "Air", true)) {
+			LoadAirModels(path, helperFunctions);
+		}
+		
 		// Replace low-poly Sonic on the Tornado by low-poly Shadow
 		if (config->getBool("", "Tornado", true)) {
 			Tornado_init(helperFunctions);
