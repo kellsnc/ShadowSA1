@@ -1,20 +1,5 @@
 #include "pch.h"
 
-void ReplaceAnims(const char* path) {
-	AnimationFile* anm5 = new AnimationFile((std::string)path + "\\CHRMODELS\\___SONIC_ACTIONS\\005.saanim");
-	AnimationFile* anm6 = new AnimationFile((std::string)path + "\\CHRMODELS\\___SONIC_ACTIONS\\006.saanim");
-	AnimationFile* anm18 = new AnimationFile((std::string)path + "\\CHRMODELS\\___SONIC_ACTIONS\\018.saanim");
-
-	HMODULE hm = GetModuleHandle(L"CHRMODELS_orig");
-	NJS_ACTION** SONIC_ACTIONS = (NJS_ACTION**)GetProcAddress(hm, "___SONIC_ACTIONS");
-
-	if (SONIC_ACTIONS) {
-		SONIC_ACTIONS[5]->motion = anm5->getmotion();
-		SONIC_ACTIONS[6]->motion = anm6->getmotion();
-		SONIC_ACTIONS[18]->motion = anm18->getmotion();
-	}
-}
-
 void InitShadowAnimData();
 Trampoline InitSonicAnimData_t((int)InitSonicAnimData, (int)InitSonicAnimData + 0x5, InitShadowAnimData);
 void InitShadowAnimData() {
