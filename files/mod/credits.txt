@@ -1,6 +1,8 @@
 Mod authors:
 Kell (models, code)
-Sora (animations)
+Sora (animation help)
+ItsEasyActually (help)
+kawaiikaorichan (shape motion help)
 
 Special thanks:
 SA Tools developers

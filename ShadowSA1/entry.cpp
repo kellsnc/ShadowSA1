@@ -1,18 +1,21 @@
 #include "pch.h"
 
 void Tornado_init(const HelperFunctions& helperFunctions);
-void LoadAirModels(const char* path, const HelperFunctions& helperFunctions);
+void Effects_Init(const char* path, const HelperFunctions& helperFunctions);
 
 DataPointer(NJS_OBJECT, SonicPointingHand_Object, 0x2DD8708);
 
-void SetLSDColor() {
+void SetLSDColor()
+{
 	SetMaterialAndSpriteColor_Float(0.8f, 0.96f, 0.4f, 0.f);
 }
 
-void PointingFinger_Init(const HelperFunctions& helperFunctions) {
+void PointingFinger_Init(const HelperFunctions& helperFunctions)
+{
 	ModelInfo* mdl = new ModelInfo(helperFunctions.GetReplaceablePath("system\\SHADOW_POINTINGHAND.sa1mdl"));
 
-	if (mdl->getformat() == ModelFormat_Basic) {
+	if (mdl->getformat() == ModelFormat_Basic)
+	{
 		SonicPointingHand_Object = *mdl->getmodel();
 	}
 }
@@ -42,14 +45,18 @@ extern "C"
 		PointingFinger_Init(helperFunctions);
 
 		// Air effect under shoes
-		if (config->getBool("", "Air", true)) {
-			LoadAirModels(path, helperFunctions);
+		if (config->getBool("", "Air", true))
+		{
+			Effects_Init(path, helperFunctions);
 		}
 		
 		// Replace low-poly Sonic on the Tornado by low-poly Shadow
-		if (config->getBool("", "Tornado", true)) {
+		if (config->getBool("", "Tornado", true))
+		{
 			Tornado_init(helperFunctions);
 		}
+
+		delete config;
 	}
 
 	__declspec(dllexport) ModInfo SADXModInfo = { ModLoaderVer };

@@ -47,9 +47,10 @@ uint16_t Shadow_HandIndices[] = {
 
 void InitShadowWeldInfo();
 Trampoline InitSonicWeldInfo_t((int)InitSonicWeldInfo, (int)InitSonicWeldInfo + 0x5, InitShadowWeldInfo);
-void InitShadowWeldInfo() {
-	VoidFunc(original, InitSonicWeldInfo_t.Target());
-	original(); // For Metal Sonic compatibility with other mods
+void InitShadowWeldInfo()
+{
+	// Call original to allow the game to initialize Metal Sonic welds.
+	((decltype(InitShadowWeldInfo)*)InitSonicWeldInfo_t.Target())();
 
 	// Hand fix (The Mod Loader's chrmodels replacement system does that wrong)
 	SONIC_OBJECTS[4] = SONIC_OBJECTS[0]->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling;

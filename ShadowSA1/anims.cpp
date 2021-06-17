@@ -2,9 +2,10 @@
 
 void __cdecl InitShadowAnimData();
 Trampoline InitSonicAnimData_t((int)InitSonicAnimData, (int)InitSonicAnimData + 0x5, InitShadowAnimData);
-void __cdecl InitShadowAnimData() {
-	NonStaticFunctionPointer(void, original, (), InitSonicAnimData_t.Target());
-	original();
+void __cdecl InitShadowAnimData()
+{
+	// Call original to allow the game to initialize the other animations
+	((decltype(InitShadowAnimData)*)InitSonicAnimData_t.Target())();
 
 	SonicAnimData[11].AnimationSpeed = 0.4f;
 	SonicAnimData[11].TransitionSpeed = 0.5f;
