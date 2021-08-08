@@ -21,6 +21,24 @@
     <ClInclude Include="pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="chrmodels.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="icons.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tornado.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="effects.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mod.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -29,19 +47,22 @@
     <ClCompile Include="pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="entry.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="welds.cpp">
+    <ClCompile Include="mod.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="tornado.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="anims.cpp">
+    <ClCompile Include="effects.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="effects.cpp">
+    <ClCompile Include="chrmodels.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="utils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="icons.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

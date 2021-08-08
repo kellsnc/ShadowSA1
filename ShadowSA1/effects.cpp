@@ -4,7 +4,7 @@ static Trampoline* Sonic_Display_t = nullptr;
 static NJS_OBJECT* ShadowAir_Object = nullptr;
 static int NodeCount = 0;
 
-void __cdecl Air_CallBack(NJS_MODEL_SADX* model, int a2, int a3)
+static void __cdecl Air_CallBack(NJS_MODEL_SADX* model, int a2, int a3)
 {
 	switch (NodeCount)
 	{
@@ -25,7 +25,7 @@ void __cdecl Air_CallBack(NJS_MODEL_SADX* model, int a2, int a3)
 	NodeCount += 1;
 }
 
-void DrawShadowAir(EntityData1* data1, NJS_ACTION* action, Float frame)
+static void DrawShadowAir(EntityData1* data1, NJS_ACTION* action, Float frame)
 {
 	NodeCount = 0;
 
@@ -39,7 +39,7 @@ void DrawShadowAir(EntityData1* data1, NJS_ACTION* action, Float frame)
 	njPopMatrixEx();
 }
 
-void Sonic_Display_r(ObjectMaster* obj)
+static void Sonic_Display_r(ObjectMaster* obj)
 {
 	// Call original
 	((decltype(Sonic_Display_r)*)Sonic_Display_t->Target())(obj);
@@ -64,11 +64,11 @@ void Sonic_Display_r(ObjectMaster* obj)
 	}
 }
 
-void Effects_Init(const char* path, const HelperFunctions& helperFunctions)
+void Effects_Init()
 {
-	ModelInfo* mdl = new ModelInfo(helperFunctions.GetReplaceablePath("system\\SHADOW_AIR.sa1mdl"));
+	ModelInfo* mdl = OpenModel("SHADOW_AIR.sa1mdl");
 
-	if (mdl->getformat() == ModelFormat_Basic)
+	if (mdl)
 	{
 		ShadowAir_Object = mdl->getmodel();
 
@@ -76,9 +76,5 @@ void Effects_Init(const char* path, const HelperFunctions& helperFunctions)
 		{
 			Sonic_Display_t = new Trampoline((int)Sonic_Display, (int)Sonic_Display + 0x7, Sonic_Display_r);
 		}
-	}
-	else
-	{
-		PrintDebug("[Shadow SA1] Cannot open \"SHADOW_AIR.sa1mdl\".\n");
 	}
 }

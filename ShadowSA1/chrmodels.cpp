@@ -1,0 +1,409 @@
+#include "pch.h"
+
+#define INIT_WELD(id, base, mdlA, mdlB, table) SonicWeldInfo[id] =  { SONIC_OBJECTS[base], SONIC_OBJECTS[mdlA], SONIC_OBJECTS[mdlB], static_cast<char>(LengthOfArray(table) / 2), 2, NULL, NULL, (uint16_t*)table }
+#define CALL_ORIGINAL(name) ((decltype(name##_r)*)name##_t->Target())
+
+DataPointer(NJS_OBJECT, SonicPointingHand_Object, 0x2DD8708);
+
+static ModelInfo* SHADOW_OBJECT_000;
+static ModelInfo* SHADOW_OBJECT_022;
+static ModelInfo* SHADOW_OBJECT_044;
+static ModelInfo* SHADOW_OBJECT_047;
+static ModelInfo* SHADOW_OBJECT_054;
+static ModelInfo* SHADOW_OBJECT_058;
+static ModelInfo* SHADOW_OBJECT_060;
+static ModelInfo* SHADOW_OBJECT_063;
+static ModelInfo* SHADOW_OBJECT_064;
+static ModelInfo* SHADOW_OBJECT_065;
+static ModelInfo* SHADOW_OBJECT_066;
+static ModelInfo* SHADOW_ACTION_142;
+static ModelInfo* SHADOW_MODEL_009;
+static AnimationFile* SHADOW_ACTION_005;
+static AnimationFile* SHADOW_ACTION_006;
+static AnimationFile* SHADOW_ACTION_018;
+static AnimationFile* SHADOW_MOTION_000;
+
+static Trampoline* InitSonicAnimData_t = nullptr;
+static Trampoline* InitSonicWeldInfo_t = nullptr;
+
+static const uint16_t Shadow_UpperArmIndices[] = {
+	0, 2,
+	1, 3,
+	4, 6,
+	5, 7,
+};
+
+static const uint16_t Shadow_LowerArmIndices[] = {
+	0, 2,
+	1, 3,
+	4, 6,
+	5, 7,
+};
+
+static const uint16_t Shadow_UpperLegIndices[] = {
+	0, 2,
+	1, 3,
+	4, 6,
+	5, 7,
+};
+
+static const uint16_t Shadow_LowerLegIndices[] = {
+	0, 2,
+	1, 3,
+	4, 6,
+	5, 7,
+};
+
+static const uint16_t Shadow_ShoeIndices[] = {
+	33, 27,
+	15, 12,
+	14, 9,
+	12, 7,
+	10, 1,
+	11, 2,
+	3, 0
+};
+
+static const uint16_t Shadow_HandIndices[] = {
+	4, 15,
+	0, 14,
+	1, 13,
+	5, 12
+};
+
+static void __cdecl InitSonicWeldInfo_r()
+{
+	// Call original to allow the game to initialize Metal Sonic welds.
+	CALL_ORIGINAL(InitSonicWeldInfo)();
+
+	// Sonic
+	INIT_WELD(0, 0, 1, 2, Shadow_UpperArmIndices);
+	INIT_WELD(1, 0, 2, 3, Shadow_LowerArmIndices);
+	INIT_WELD(2, 0, 7, 8, Shadow_UpperArmIndices);
+	INIT_WELD(3, 0, 8, 9, Shadow_LowerArmIndices);
+	INIT_WELD(4, 0, 12, 13, Shadow_UpperLegIndices);
+	INIT_WELD(5, 0, 13, 14, Shadow_LowerLegIndices);
+	INIT_WELD(6, 0, 17, 18, Shadow_UpperLegIndices);
+	INIT_WELD(7, 0, 18, 19, Shadow_LowerLegIndices);
+	INIT_WELD(8, 0, 15, 16, Shadow_ShoeIndices);
+	INIT_WELD(9, 0, 20, 21, Shadow_ShoeIndices);
+	INIT_WELD(10, 0, 10, 11, Shadow_HandIndices);
+	INIT_WELD(11, 0, 4, 5, Shadow_HandIndices);
+	INIT_WELD(12, 0, 58, 59, Shadow_ShoeIndices); // Left shoe upgrade
+	INIT_WELD(13, 0, 60, 61, Shadow_ShoeIndices); // Right shoe upgrade
+	INIT_WELD(14, 0, 2, 63, Shadow_LowerArmIndices); // Wrist upgrade
+
+	// Super Sonic
+	INIT_WELD(22, 22, 23, 24, Shadow_UpperArmIndices);
+	INIT_WELD(23, 22, 24, 25, Shadow_LowerArmIndices);
+	INIT_WELD(24, 22, 28, 29, Shadow_UpperArmIndices);
+	INIT_WELD(25, 22, 29, 30, Shadow_LowerArmIndices);
+	INIT_WELD(26, 22, 33, 34, Shadow_UpperLegIndices);
+	INIT_WELD(27, 22, 34, 35, Shadow_LowerLegIndices);
+	INIT_WELD(28, 22, 38, 39, Shadow_UpperLegIndices);
+	INIT_WELD(29, 22, 39, 40, Shadow_LowerLegIndices);
+	INIT_WELD(30, 22, 36, 37, Shadow_ShoeIndices);
+	INIT_WELD(31, 22, 41, 42, Shadow_ShoeIndices);
+	INIT_WELD(32, 22, 31, 32, Shadow_HandIndices);
+	INIT_WELD(33, 22, 26, 27, Shadow_HandIndices);
+	INIT_WELD(34, 22, 31, 32, Shadow_HandIndices);
+	INIT_WELD(35, 22, 26, 27, Shadow_HandIndices);
+}
+
+static void __cdecl InitSonicAnimData_r()
+{
+	// Call original to allow the game to initialize the other animation
+	CALL_ORIGINAL(InitSonicAnimData)();
+
+	SonicAnimData[11].AnimationSpeed = 0.4f;
+	SonicAnimData[11].TransitionSpeed = 0.5f;
+	SonicAnimData[11].Property = 9;
+
+	SonicAnimData[12].AnimationSpeed = 0.25f;
+	SonicAnimData[12].TransitionSpeed = 0.25f;
+	SonicAnimData[12].Property = 10;
+
+	SonicAnimData[13].AnimationSpeed = 0.30f;
+	SonicAnimData[13].TransitionSpeed = 0.25f;
+	SonicAnimData[13].Property = 10;
+}
+
+static void ReplaceSonicModels()
+{
+	SHADOW_OBJECT_000 = OpenModel("SHADOW_OBJECTS\\000.sa1mdl"); // Shadow
+	SHADOW_OBJECT_022 = OpenModel("SHADOW_OBJECTS\\022.sa1mdl"); // Super Shadow
+	SHADOW_OBJECT_044 = OpenModel("SHADOW_OBJECTS\\044.sa1mdl"); // Ball model
+	SHADOW_OBJECT_047 = OpenModel("SHADOW_OBJECTS\\047.sa1mdl"); // Event head
+	SHADOW_OBJECT_054 = OpenModel("SHADOW_OBJECTS\\054.sa1mdl"); // Light Dash Aura
+	SHADOW_OBJECT_058 = OpenModel("SHADOW_OBJECTS\\058.sa1mdl"); // Shoe Upgrade
+	SHADOW_OBJECT_060 = OpenModel("SHADOW_OBJECTS\\060.sa1mdl"); // Shoe Upgrade
+	SHADOW_OBJECT_063 = OpenModel("SHADOW_OBJECTS\\063.sa1mdl"); // Wrist Upgrade
+	SHADOW_OBJECT_064 = OpenModel("SHADOW_OBJECTS\\064.sa1mdl"); // Ring upgrade (for display)
+	SHADOW_OBJECT_065 = OpenModel("SHADOW_OBJECTS\\065.sa1mdl"); // Shoe upgrade (for display)
+	SHADOW_OBJECT_066 = OpenModel("SHADOW_OBJECTS\\066.sa1mdl"); // Curved model
+	SHADOW_ACTION_142 = OpenModel("SHADOW_ACTIONS\\142.sa1mdl"); // Super Shadow ball model
+	SHADOW_MODEL_009  = OpenModel("SHADOW_MODELS\\009.sa1mdl");  // Morph head
+	
+	SONIC_OBJECTS[0] = reinterpret_cast<NJS_OBJECT*>(SHADOW_OBJECT_000->getdata("object_0056AF50"));
+	SONIC_OBJECTS[1] = reinterpret_cast<NJS_OBJECT*>(SHADOW_OBJECT_000->getdata("object_00563B7C"));
+	SONIC_OBJECTS[2] = reinterpret_cast<NJS_OBJECT*>(SHADOW_OBJECT_000->getdata("object_00563D0C"));
+	SONIC_OBJECTS[3] = reinterpret_cast<NJS_OBJECT*>(SHADOW_OBJECT_000->getdata("object_005654EC"));
+	SONIC_OBJECTS[4] = reinterpret_cast<NJS_OBJECT*>(SHADOW_OBJECT_000->getdata("object_00564CD0"));
+	SONIC_OBJECTS[5] = reinterpret_cast<NJS_OBJECT*>(SHADOW_OBJECT_000->getdata("object_005647B8"));
+	SONIC_OBJECTS[6] = reinterpret_cast<NJS_OBJECT*>(SHADOW_OBJECT_000->getdata("object_00564A78"));
+	SONIC_OBJECTS[7] = reinterpret_cast<NJS_OBJECT*>(SHADOW_OBJECT_000->getdata("object_00561F14"));
+	SONIC_OBJECTS[8] = reinterpret_cast<NJS_OBJECT*>(SHADOW_OBJECT_000->getdata("object_005620A4"));
+	SONIC_OBJECTS[9] = reinterpret_cast<NJS_OBJECT*>(SHADOW_OBJECT_000->getdata("object_005638CC"));
+	SONIC_OBJECTS[10] = reinterpret_cast<NJS_OBJECT*>(SHADOW_OBJECT_000->getdata("object_005630B0"));
+	SONIC_OBJECTS[11] = reinterpret_cast<NJS_OBJECT*>(SHADOW_OBJECT_000->getdata("object_00562B80"));
+	SONIC_OBJECTS[12] = reinterpret_cast<NJS_OBJECT*>(SHADOW_OBJECT_000->getdata("object_0056044C"));
+	SONIC_OBJECTS[13] = reinterpret_cast<NJS_OBJECT*>(SHADOW_OBJECT_000->getdata("object_005605DC"));
+	SONIC_OBJECTS[14] = reinterpret_cast<NJS_OBJECT*>(SHADOW_OBJECT_000->getdata("object_00561C68"));
+	SONIC_OBJECTS[15] = reinterpret_cast<NJS_OBJECT*>(SHADOW_OBJECT_000->getdata("object_005613F8"));
+	SONIC_OBJECTS[16] = reinterpret_cast<NJS_OBJECT*>(SHADOW_OBJECT_000->getdata("object_00560DD0"));
+	SONIC_OBJECTS[17] = reinterpret_cast<NJS_OBJECT*>(SHADOW_OBJECT_000->getdata("object_0055E99C"));
+	SONIC_OBJECTS[18] = reinterpret_cast<NJS_OBJECT*>(SHADOW_OBJECT_000->getdata("object_0055EB2C"));
+	SONIC_OBJECTS[19] = reinterpret_cast<NJS_OBJECT*>(SHADOW_OBJECT_000->getdata("object_005601B8"));
+	SONIC_OBJECTS[20] = reinterpret_cast<NJS_OBJECT*>(SHADOW_OBJECT_000->getdata("object_0055F948"));
+	SONIC_OBJECTS[21] = reinterpret_cast<NJS_OBJECT*>(SHADOW_OBJECT_000->getdata("object_0055F330"));
+	SONIC_OBJECTS[22] = reinterpret_cast<NJS_OBJECT*>(SHADOW_OBJECT_022->getdata("object_0062DE88"));
+	SONIC_OBJECTS[23] = reinterpret_cast<NJS_OBJECT*>(SHADOW_OBJECT_022->getdata("object_00626AB4"));
+	SONIC_OBJECTS[24] = reinterpret_cast<NJS_OBJECT*>(SHADOW_OBJECT_022->getdata("object_00626C44"));
+	SONIC_OBJECTS[25] = reinterpret_cast<NJS_OBJECT*>(SHADOW_OBJECT_022->getdata("object_0062840C"));
+	SONIC_OBJECTS[26] = reinterpret_cast<NJS_OBJECT*>(SHADOW_OBJECT_022->getdata("object_00627BF0"));
+	SONIC_OBJECTS[27] = reinterpret_cast<NJS_OBJECT*>(SHADOW_OBJECT_022->getdata("object_006276D8"));
+	SONIC_OBJECTS[28] = reinterpret_cast<NJS_OBJECT*>(SHADOW_OBJECT_022->getdata("object_00624E3C"));
+	SONIC_OBJECTS[29] = reinterpret_cast<NJS_OBJECT*>(SHADOW_OBJECT_022->getdata("object_00624FCC"));
+	SONIC_OBJECTS[30] = reinterpret_cast<NJS_OBJECT*>(SHADOW_OBJECT_022->getdata("object_006267F4"));
+	SONIC_OBJECTS[31] = reinterpret_cast<NJS_OBJECT*>(SHADOW_OBJECT_022->getdata("object_00625FD8"));
+	SONIC_OBJECTS[32] = reinterpret_cast<NJS_OBJECT*>(SHADOW_OBJECT_022->getdata("object_00625AA8"));
+	SONIC_OBJECTS[33] = reinterpret_cast<NJS_OBJECT*>(SHADOW_OBJECT_022->getdata("object_00623474"));
+	SONIC_OBJECTS[34] = reinterpret_cast<NJS_OBJECT*>(SHADOW_OBJECT_022->getdata("object_00623604"));
+	SONIC_OBJECTS[35] = reinterpret_cast<NJS_OBJECT*>(SHADOW_OBJECT_022->getdata("object_00624B78"));
+	SONIC_OBJECTS[36] = reinterpret_cast<NJS_OBJECT*>(SHADOW_OBJECT_022->getdata("object_00624308"));
+	SONIC_OBJECTS[37] = reinterpret_cast<NJS_OBJECT*>(SHADOW_OBJECT_022->getdata("object_00623C14"));
+	SONIC_OBJECTS[38] = reinterpret_cast<NJS_OBJECT*>(SHADOW_OBJECT_022->getdata("object_00621AC4"));
+	SONIC_OBJECTS[39] = reinterpret_cast<NJS_OBJECT*>(SHADOW_OBJECT_022->getdata("object_00621C54"));
+	SONIC_OBJECTS[40] = reinterpret_cast<NJS_OBJECT*>(SHADOW_OBJECT_022->getdata("object_006231E0"));
+	SONIC_OBJECTS[41] = reinterpret_cast<NJS_OBJECT*>(SHADOW_OBJECT_022->getdata("object_00622970"));
+	SONIC_OBJECTS[42] = reinterpret_cast<NJS_OBJECT*>(SHADOW_OBJECT_022->getdata("object_00622254"));
+	SONIC_OBJECTS[44] = reinterpret_cast<NJS_OBJECT*>(SHADOW_OBJECT_044->getdata("object_0057BC44"));
+	SONIC_OBJECTS[45] = reinterpret_cast<NJS_OBJECT*>(SHADOW_OBJECT_000->getdata("object_0056998C"));
+	SONIC_OBJECTS[46] = reinterpret_cast<NJS_OBJECT*>(SHADOW_OBJECT_000->getdata("object_00569594"));
+	SONIC_OBJECTS[47] = reinterpret_cast<NJS_OBJECT*>(SHADOW_OBJECT_047->getdata("object_005812AC"));
+	SONIC_OBJECTS[48] = reinterpret_cast<NJS_OBJECT*>(SHADOW_OBJECT_000->getdata("object_00569DEC"));
+	SONIC_OBJECTS[49] = reinterpret_cast<NJS_OBJECT*>(SHADOW_OBJECT_000->getdata("object_00569594"));
+	SONIC_OBJECTS[50] = reinterpret_cast<NJS_OBJECT*>(SHADOW_OBJECT_000->getdata("object_00569E20"));
+	SONIC_OBJECTS[51] = reinterpret_cast<NJS_OBJECT*>(SHADOW_OBJECT_000->getdata("object_00569CE8"));
+	SONIC_OBJECTS[52] = reinterpret_cast<NJS_OBJECT*>(SHADOW_OBJECT_000->getdata("object_005698F0"));
+	SONIC_OBJECTS[54] = reinterpret_cast<NJS_OBJECT*>(SHADOW_OBJECT_054->getdata("object_006837E8"));
+	SONIC_OBJECTS[55] = reinterpret_cast<NJS_OBJECT*>(SHADOW_OBJECT_054->getdata("object_00682EF4"));
+	SONIC_OBJECTS[58] = reinterpret_cast<NJS_OBJECT*>(SHADOW_OBJECT_058->getdata("object_00581FB8"));
+	SONIC_OBJECTS[59] = reinterpret_cast<NJS_OBJECT*>(SHADOW_OBJECT_058->getdata("object_005818AC"));
+	SONIC_OBJECTS[60] = reinterpret_cast<NJS_OBJECT*>(SHADOW_OBJECT_060->getdata("object_00582CC0"));
+	SONIC_OBJECTS[61] = reinterpret_cast<NJS_OBJECT*>(SHADOW_OBJECT_060->getdata("object_005825A4"));
+	SONIC_OBJECTS[62] = reinterpret_cast<NJS_OBJECT*>(SHADOW_OBJECT_000->getdata("object_00565520"));
+	SONIC_OBJECTS[63] = reinterpret_cast<NJS_OBJECT*>(SHADOW_OBJECT_063->getdata("object_00583284"));
+	SONIC_OBJECTS[64] = reinterpret_cast<NJS_OBJECT*>(SHADOW_OBJECT_064->getdata("object_00583904"));
+	SONIC_OBJECTS[65] = reinterpret_cast<NJS_OBJECT*>(SHADOW_OBJECT_065->getdata("object_00585EB4"));
+	SONIC_OBJECTS[66] = reinterpret_cast<NJS_OBJECT*>(SHADOW_OBJECT_066->getdata("object_005729CC"));
+	SONIC_OBJECTS[67] = reinterpret_cast<NJS_OBJECT*>(SHADOW_OBJECT_000->getdata("object_0057BC44"));
+	SONIC_OBJECTS[63]->sibling = SONIC_OBJECTS[4];
+
+	for (int i = 0; i < 149; ++i)
+	{
+		NJS_ACTION* action = SONIC_ACTIONS[i];
+
+		if (action)
+		{
+			SONIC_ACTIONS[i]->object = SONIC_OBJECTS[0];
+		}
+	}
+
+	SONIC_ACTIONS[0]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[1]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[2]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[3]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[4]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[5]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[6]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[7]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[8]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[9]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[10]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[11]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[12]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[13]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[14]->object = SONIC_OBJECTS[66];
+	SONIC_ACTIONS[15]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[16]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[17]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[18]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[19]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[20]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[21]->object = SONIC_OBJECTS[44];
+	SONIC_ACTIONS[22]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[23]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[27]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[28]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[29]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[30]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[31]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[32]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[33]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[34]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[35]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[36]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[37]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[38]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[39]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[40]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[41]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[42]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[43]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[44]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[45]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[46]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[47]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[48]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[49]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[50]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[51]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[52]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[53]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[54]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[55]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[56]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[57]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[58]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[59]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[60]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[61]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[62]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[63]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[64]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[65]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[66]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[67]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[68]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[69]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[70]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[71]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[72]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[87]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[88]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[89]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[90]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[91]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[92]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[93]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[94]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[95]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[96]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[97]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[98]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[99]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[100]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[101]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[102]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[103]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[104]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[105]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[106]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[107]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[108]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[109]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[113]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[114]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[115]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[116]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[117]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[118]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[119]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[120]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[121]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[122]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[123]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[124]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[125]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[126]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[127]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[128]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[129]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[130]->object = SONIC_OBJECTS[22];
+	SONIC_ACTIONS[131]->object = SONIC_OBJECTS[22];
+	SONIC_ACTIONS[132]->object = SONIC_OBJECTS[22];
+	SONIC_ACTIONS[133]->object = SONIC_OBJECTS[22];
+	SONIC_ACTIONS[134]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[135]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[136]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[137]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[138]->object = SONIC_OBJECTS[22];
+	SONIC_ACTIONS[139]->object = SONIC_OBJECTS[22];
+	SONIC_ACTIONS[140]->object = SONIC_OBJECTS[22];
+	SONIC_ACTIONS[141]->object = SONIC_OBJECTS[22];
+	SONIC_ACTIONS[142]->object = SHADOW_ACTION_142->getmodel();
+	SONIC_ACTIONS[143]->object = SONIC_OBJECTS[22];
+	SONIC_ACTIONS[144]->object = SONIC_OBJECTS[22];
+	SONIC_ACTIONS[145]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[146]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[147]->object = SONIC_OBJECTS[0];
+	SONIC_ACTIONS[148]->object = SONIC_OBJECTS[0];
+
+	SONIC_MODELS[0] = nullptr; // Base Shoe Toe (Left)
+	SONIC_MODELS[1] = nullptr; // Base Shoe Toe (Right)
+	SONIC_MODELS[2] = nullptr; // Stretched Toe 01 (Left)
+	SONIC_MODELS[3] = nullptr; // Stretched Toe 02 (Left)
+	SONIC_MODELS[4] = nullptr; // Stretched Toe 03 (Left)
+	SONIC_MODELS[5] = nullptr; // Stretched Toe 01 (Right)
+	SONIC_MODELS[6] = nullptr; // Stretched Toe 02 (Right)
+	SONIC_MODELS[7] = nullptr; // Stretched Toe 03 (Right)
+	SONIC_MODELS[8] = SONIC_OBJECTS[0]->child->child->sibling->sibling->sibling->sibling->sibling->child->child->sibling->sibling->sibling->basicdxmodel; // Normal head
+	SONIC_MODELS[9] = SHADOW_MODEL_009->getmodel()->basicdxmodel; // Morph head
+}
+
+static void ReplaceSonicAnims()
+{
+	SHADOW_ACTION_005 = OpenAnim("SHADOW_ACTIONS\\005.saanim");  // Jog
+	SHADOW_ACTION_006 = OpenAnim("SHADOW_ACTIONS\\006.saanim");  // Run
+	SHADOW_ACTION_018 = OpenAnim("SHADOW_ACTIONS\\018.saanim");  // Run fast
+	
+	SONIC_ACTIONS[5]->motion  = SHADOW_ACTION_005->getmotion();
+	SONIC_ACTIONS[6]->motion  = SHADOW_ACTION_006->getmotion();
+	SONIC_ACTIONS[18]->motion = SHADOW_ACTION_018->getmotion();
+}
+
+static void ReplaceSonicShapeMotions()
+{
+	SHADOW_MOTION_000 = OpenAnim("SHADOW_MOTIONS\\000.saanim");  // Shape motions
+
+	SONIC_MOTIONS[0] = SHADOW_MOTION_000->getmotion();
+}
+
+static void ReplaceSonicPointingFinger()
+{
+	ModelInfo* mdl = OpenModel("SHADOW_POINTINGHAND.sa1mdl");
+
+	if (mdl)
+	{
+		SonicPointingHand_Object = *mdl->getmodel();
+	}
+}
+
+void HookCHRMODELS(const IniFile* config)
+{
+	ReplaceSonicModels();
+	ReplaceSonicShapeMotions();
+	ReplaceSonicPointingFinger();
+
+	// Replace welds
+	InitSonicWeldInfo_t = new Trampoline((int)InitSonicWeldInfo, (int)InitSonicWeldInfo + 0x5, InitSonicWeldInfo_r);
+
+	if (config->getBool("", "Anims", true))
+	{
+		ReplaceSonicAnims();
+
+		// Set new animation settings
+		InitSonicAnimData_t = new Trampoline((int)InitSonicAnimData, (int)InitSonicAnimData + 0x5, InitSonicAnimData_r);
+	}
+}
