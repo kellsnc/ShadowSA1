@@ -57,14 +57,7 @@ void InitShadowWeldInfo()
 	SONIC_OBJECTS[5] = SONIC_OBJECTS[0]->child->child->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->child->sibling;
 	SONIC_OBJECTS[63]->sibling = SONIC_OBJECTS[4];
 
-	// Shoe fix
-	SONIC_OBJECTS[15] = SONIC_OBJECTS[0]->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling;
-	SONIC_OBJECTS[16] = SONIC_OBJECTS[0]->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->child;
-	SONIC_OBJECTS[20] = SONIC_OBJECTS[0]->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling;
-	SONIC_OBJECTS[21] = SONIC_OBJECTS[0]->child->child->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->sibling->child->child->child->child->sibling->sibling->child;
-
 	// Sonic
-
 	SonicWeldInfo[0].BaseModel = SONIC_OBJECTS[0];
 	SonicWeldInfo[0].ModelA = SONIC_OBJECTS[1];
 	SonicWeldInfo[0].ModelB = SONIC_OBJECTS[2];

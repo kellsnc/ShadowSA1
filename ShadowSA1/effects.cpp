@@ -64,7 +64,8 @@ void Sonic_Display_r(ObjectMaster* obj)
 	}
 }
 
-void Effects_Init(const char* path, const HelperFunctions& helperFunctions) {
+void Effects_Init(const char* path, const HelperFunctions& helperFunctions)
+{
 	ModelInfo* mdl = new ModelInfo(helperFunctions.GetReplaceablePath("system\\SHADOW_AIR.sa1mdl"));
 
 	if (mdl->getformat() == ModelFormat_Basic)
