@@ -46,6 +46,10 @@ extern "C"
 		// Replace the light speed dash aura color
 		WriteCall((void*)0x4A1705, SetLSDColor);
 
+		helperFunctions.ReplaceFile("system\\SONIC.pvm", "system\\SHADOW_DC.pvm");
+		helperFunctions.ReplaceFile("system\\SUPERSONIC.pvm", "system\\SUPERSHADOW_DC.pvm");
+		helperFunctions.ReplaceFile("system\\SON_EFF.pvm", "system\\SHADOW_EFF_DC.pvm");
+
 		delete config;
 	}
 
