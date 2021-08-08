@@ -1,6 +1,6 @@
 #include "pch.h"
 
-#define INIT_WELD(id, base, mdlA, mdlB, table) SonicWeldInfo[id] =  { SONIC_OBJECTS[base], SONIC_OBJECTS[mdlA], SONIC_OBJECTS[mdlB], static_cast<char>(LengthOfArray(table) / 2), 2, NULL, NULL, (uint16_t*)table }
+#define INIT_WELD(id, base, mdlA, mdlB, table) SonicWeldInfo[id] = { SONIC_OBJECTS[base], SONIC_OBJECTS[mdlA], SONIC_OBJECTS[mdlB], static_cast<char>(LengthOfArray(table) / 2), 2, NULL, NULL, (uint16_t*)table }
 #define CALL_ORIGINAL(name) ((decltype(name##_r)*)name##_t->Target())
 
 DataPointer(NJS_OBJECT, SonicPointingHand_Object, 0x2DD8708);
@@ -70,6 +70,12 @@ static const uint16_t Shadow_HandIndices[] = {
 	1, 13,
 	5, 12
 };
+
+static void __cdecl InitNPCSonicWeldInfo_r()
+{
+	memcpy(NPCSonicWeldInfo, SonicWeldInfo, sizeof(WeldInfo) * 15);
+	NPCSonicWeldInfo[15] = {};
+}
 
 static void __cdecl InitSonicWeldInfo_r()
 {
@@ -348,7 +354,7 @@ static void ReplaceSonicModels()
 	SONIC_MODELS[5] = nullptr; // Stretched Toe 01 (Right)
 	SONIC_MODELS[6] = nullptr; // Stretched Toe 02 (Right)
 	SONIC_MODELS[7] = nullptr; // Stretched Toe 03 (Right)
-	SONIC_MODELS[8] = SONIC_OBJECTS[46]->basicdxmodel; // Normal head
+	SONIC_MODELS[8] = SONIC_OBJECTS[0]->child->child->sibling->sibling->sibling->sibling->sibling->child->child->sibling->sibling->sibling->basicdxmodel; // Normal head
 	SONIC_MODELS[9] = SHADOW_MODEL_009->getmodel()->basicdxmodel; // Morph head
 }
 
@@ -388,6 +394,7 @@ void HookCHRMODELS(const IniFile* config)
 
 	// Replace welds
 	InitSonicWeldInfo_t = new Trampoline((int)InitSonicWeldInfo, (int)InitSonicWeldInfo + 0x5, InitSonicWeldInfo_r);
+	WriteJump(InitNPCSonicWeldInfo, InitNPCSonicWeldInfo_r);
 
 	if (config->getBool("", "Anims", true))
 	{
