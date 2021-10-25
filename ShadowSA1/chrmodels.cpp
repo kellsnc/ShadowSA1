@@ -382,7 +382,7 @@ static void ReplaceSonicPointingFinger()
 
 	if (mdl)
 	{
-		SonicPointingHand_Object = *mdl->getmodel();
+		SonicPointingHand_Object.model = mdl->getmodel()->model;
 	}
 }
 
