@@ -1,6 +1,7 @@
 Mod authors:
 Kell (models, code)
-Sora (animation help)
+Sora (animations)
+SoloSlacker (GUI textures)
 ItsEasyActually (help)
 kawaiikaorichan (shape motion help)
 
