@@ -1,7 +1,11 @@
 #include "pch.h"
+#include "utils.h"
+#include "chrmodels.h"
 
-#define INIT_WELD(id, base, mdlA, mdlB, table) SonicWeldInfo[id] = { SONIC_OBJECTS[base], SONIC_OBJECTS[mdlA], SONIC_OBJECTS[mdlB], static_cast<char>(LengthOfArray(table) / 2), 2, NULL, NULL, (uint16_t*)table }
-#define CALL_ORIGINAL(name) ((decltype(name##_r)*)name##_t->Target())
+DataArray(PL_JOIN_VERTEX, sonic_jv_list, 0x3C55E28, 37);
+DataArray(PL_ACTION, sonic_action, 0x3C56210, 146);
+
+#define INIT_WELD(id, base, mdlA, mdlB, table) sonic_jv_list[id] = { SONIC_OBJECTS[base], SONIC_OBJECTS[mdlA], SONIC_OBJECTS[mdlB], static_cast<char>(LengthOfArray(table) / 2), PL_JOIN_SRC, 0, 0, nullptr, (uint16_t*)table }
 
 DataPointer(NJS_OBJECT, SonicPointingHand_Object, 0x2DD8708);
 
@@ -120,6 +124,10 @@ static void __cdecl InitSonicAnimData_r()
 {
 	// Call original to allow the game to initialize the other animation
 	CALL_ORIGINAL(InitSonicAnimData)();
+
+	sonic_action[11].frame = 0.4f;
+	sonic_action[11].racio = 0.5f;
+	sonic_action[11].mtnmode = 9;
 
 	SonicAnimData[11].AnimationSpeed = 0.4f;
 	SonicAnimData[11].TransitionSpeed = 0.5f;

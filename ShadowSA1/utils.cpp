@@ -1,10 +1,11 @@
 #include "pch.h"
+#include "utils.h"
 
 ModelInfo* OpenModel(std::string path)
 {
 	path = ModPath + "\\models\\" + path;
 
-	ModelInfo* file = new ModelInfo(path.c_str());
+	auto file = new ModelInfo(path.c_str());
 
 	if (file->getformat() == ModelFormat_Invalid)
 	{
@@ -22,7 +23,7 @@ AnimationFile* OpenAnim(std::string path)
 {
 	path = ModPath + "\\models\\" + path;
 
-	AnimationFile* file = new AnimationFile(path.c_str());
+	auto file = new AnimationFile(path.c_str());
 
 	if (file->getmotion() == nullptr)
 	{
@@ -34,9 +35,4 @@ AnimationFile* OpenAnim(std::string path)
 	{
 		return file;
 	}
-}
-
-void Utils_Init(const char* path)
-{
-	ModPath = path;
 }

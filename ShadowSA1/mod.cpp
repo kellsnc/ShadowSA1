@@ -1,10 +1,14 @@
 #include "pch.h"
+#include "icons.h"
+#include "tornado.h"
+#include "effects.h"
+#include "chrmodels.h"
 
 std::string ModPath;
 
 static void __cdecl SetLSDColor()
 {
-	SetMaterialAndSpriteColor_Float(0.8f, 0.96f, 0.4f, 0.f);
+	SetMaterial(0.8f, 0.96f, 0.4f, 0.f);
 }
 
 extern "C"
@@ -13,8 +17,7 @@ extern "C"
 	{
 		const IniFile* config = new IniFile(std::string(path) + "\\config.ini");
 
-		// Initialize utilities
-		Utils_Init(path);
+		ModPath = path;
 
 		// Replace Sonic stuff in CHRMODELS.DLL
 		HookCHRMODELS(config);

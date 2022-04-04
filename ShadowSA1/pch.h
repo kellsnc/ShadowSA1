@@ -10,9 +10,5 @@
 
 #include "mod.h"
 #include "utils.h"
-#include "chrmodels.h"
-#include "icons.h"
-#include "tornado.h"
-#include "effects.h"
 
 #endif

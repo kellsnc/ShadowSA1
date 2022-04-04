@@ -1,4 +1,6 @@
 #include "pch.h"
+#include "utils.h"
+#include "effects.h"
 
 static Trampoline* Sonic_Display_t = nullptr;
 static NJS_OBJECT* ShadowAir_Object = nullptr;
@@ -25,48 +27,47 @@ static void __cdecl Air_CallBack(NJS_MODEL_SADX* model, int a2, int a3)
 	NodeCount += 1;
 }
 
-static void DrawShadowAir(EntityData1* data1, NJS_ACTION* action, Float frame)
+static void DrawShadowAir(taskwk* twp, NJS_ACTION* action, Float frame)
 {
 	NodeCount = 0;
 
 	njPushMatrixEx();
 	njSetTexture(&SONIC_TEXLIST);
-	njTranslateEx(&data1->CollisionInfo->CollisionArray->center);
-	njRotateZ(0, data1->Rotation.z);
-	njRotateX(0, data1->Rotation.x);
-	njRotateY(0, -0x8000 - data1->Rotation.y);
+	njTranslateEx(&twp->cwp->info->center);
+	njRotateZ(0, twp->ang.z);
+	njRotateX(0, twp->ang.x);
+	njRotateY(0, -0x8000 - twp->ang.y);
 	DisplayAnimationFrame(action, frame, (QueuedModelFlagsB)0, 0.0f, Air_CallBack);
 	njPopMatrixEx();
 }
 
-static void Sonic_Display_r(ObjectMaster* obj)
+static void Sonic_Display_r(task* tp)
 {
-	// Call original
-	((decltype(Sonic_Display_r)*)Sonic_Display_t->Target())(obj);
+	CALL_ORIGINAL(Sonic_Display)(tp);
 
-	EntityData2* data2 = (EntityData2*)obj->Data2;
-	CharObj2* co2 = data2->CharacterData;
+	auto twp = tp->twp;
+	auto pwp = (playerwk*)tp->mwp->work.ptr;
 
 	// Draw air on specific animations
-	if (co2->AnimationThing.State == 2)
+	if (pwp->mj.mtnmode == 2)
 	{
-		if (co2->AnimationThing.action == SONIC_ACTIONS[5] || co2->AnimationThing.action == SONIC_ACTIONS[6] || co2->AnimationThing.action == SONIC_ACTIONS[18])
+		if (pwp->mj.actwkptr == SONIC_ACTIONS[5] || pwp->mj.actwkptr == SONIC_ACTIONS[6] || pwp->mj.actwkptr == SONIC_ACTIONS[18])
 		{
-			DrawShadowAir(obj->Data1, co2->AnimationThing.action, co2->AnimationThing.Frame);
+			DrawShadowAir(twp, pwp->mj.actwkptr, pwp->mj.nframe);
 		}
 	}
 	else
 	{
-		if (co2->AnimationThing.Index == 11 || co2->AnimationThing.Index == 12 || co2->AnimationThing.Index == 13)
+		if (pwp->mj.action == 11 || pwp->mj.action == 12 || pwp->mj.action == 13)
 		{
-			DrawShadowAir(obj->Data1, co2->AnimationThing.AnimData[co2->AnimationThing.Index].Animation, co2->AnimationThing.Frame);
+			DrawShadowAir(twp, pwp->mj.plactptr[pwp->mj.action].actptr, pwp->mj.nframe);
 		}
 	}
 }
 
 void Effects_Init()
 {
-	ModelInfo* mdl = OpenModel("SHADOW_AIR.sa1mdl");
+	auto mdl = OpenModel("SHADOW_AIR.sa1mdl");
 
 	if (mdl)
 	{
@@ -74,7 +75,7 @@ void Effects_Init()
 
 		if (ShadowAir_Object)
 		{
-			Sonic_Display_t = new Trampoline((int)Sonic_Display, (int)Sonic_Display + 0x7, Sonic_Display_r);
+			Sonic_Display_t = new Trampoline(0x4948C0, 0x4948C7, Sonic_Display_r);
 		}
 	}
 }

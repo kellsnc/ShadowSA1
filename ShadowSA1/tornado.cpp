@@ -1,4 +1,6 @@
 #include "pch.h"
+#include "utils.h"
+#include "tornado.h"
 
 static ModelInfo* ShadowPlaneMdl = nullptr;
 
@@ -11,28 +13,25 @@ static bool CheckIfShadowPlane(NJS_MODEL_SADX* model)
 	return ShadowPlaneMdl->getlabel(model) != "";
 }
 
-static void __cdecl TornadoCallBack(NJS_MODEL_SADX* model, int blend, int idk)
+static void __cdecl TornadoCallBack(NJS_MODEL_SADX* model, int flgs)
 {
-	NonStaticFunctionPointer(void, sub_407FC0, (NJS_MODEL_SADX*, int), 0x407FC0);
-
 	// If the currently drawn model is part of SHADOW_PLANE, we use the character's texlist instead
 	if (CheckIfShadowPlane(model))
 	{
 		NJS_TEXLIST* tex_orig = CurrentTexList;
-
 		njSetTexture(&SONIC_TEXLIST);
-		sub_407FC0(model, blend);
+		DrawModelMesh(model, flgs);
 		njSetTexture(tex_orig);
 	}
 	else
 	{
-		sub_407FC0(model, blend);
+		DrawModelMesh(model, flgs);
 	}
 }
 
 static void __cdecl njAction_Queue_Tornado(NJS_ACTION* action, float frame, QueuedModelFlagsB flags)
 {
-	DisplayAnimationFrame(action, frame, flags, 0.0, TornadoCallBack);
+	DrawAction(action, frame, flags, 0.0f, TornadoCallBack);
 }
 
 void Tornado_init()
@@ -41,7 +40,7 @@ void Tornado_init()
 
 	if (ShadowPlaneMdl)
 	{
-		NJS_OBJECT* model = ShadowPlaneMdl->getmodel();
+		auto model = ShadowPlaneMdl->getmodel();
 
 		if (model)
 		{
