@@ -6,28 +6,28 @@ static Trampoline* Sonic_Display_t = nullptr;
 static NJS_OBJECT* ShadowAir_Object = nullptr;
 static int NodeCount = 0;
 
-static void __cdecl Air_CallBack(NJS_MODEL_SADX* model, int a2, int a3)
+static void __cdecl Air_CallBack(NJS_MODEL_SADX* model, int, int)
 {
 	switch (NodeCount)
 	{
 	case 23:
-		DrawModel_QueueVisible(ShadowAir_Object->child->sibling->basicdxmodel, (QueuedModelFlagsB)0, 1.0f);
+		late_DrawModel(ShadowAir_Object->child->sibling->basicdxmodel, 0);
 		break;
 	case 24:
-		DrawModel_QueueVisible(ShadowAir_Object->child->sibling->sibling->basicdxmodel, (QueuedModelFlagsB)0, 1.0f);
+		late_DrawModel(ShadowAir_Object->child->sibling->sibling->basicdxmodel, 0);
 		break;
 	case 18:
-		DrawModel_QueueVisible(ShadowAir_Object->child->basicdxmodel, (QueuedModelFlagsB)0, 1.0f);
+		late_DrawModel(ShadowAir_Object->child->basicdxmodel, 0);
 		break;
 	case 19:
-		DrawModel_QueueVisible(ShadowAir_Object->child->sibling->sibling->sibling->basicdxmodel, (QueuedModelFlagsB)0, 1.0f);
+		late_DrawModel(ShadowAir_Object->child->sibling->sibling->sibling->basicdxmodel, 0);
 		break;
 	}
 
 	NodeCount += 1;
 }
 
-static void DrawShadowAir(taskwk* twp, NJS_ACTION* action, Float frame)
+static void DrawShadowAir(taskwk* twp, NJS_ACTION* action, float frame)
 {
 	NodeCount = 0;
 
@@ -37,7 +37,7 @@ static void DrawShadowAir(taskwk* twp, NJS_ACTION* action, Float frame)
 	njRotateZ(0, twp->ang.z);
 	njRotateX(0, twp->ang.x);
 	njRotateY(0, -0x8000 - twp->ang.y);
-	DisplayAnimationFrame(action, frame, (QueuedModelFlagsB)0, 0.0f, Air_CallBack);
+	DrawAction(action, frame, 0, 0.0f, Air_CallBack);
 	njPopMatrixEx();
 }
 
@@ -49,18 +49,19 @@ static void Sonic_Display_r(task* tp)
 	auto pwp = (playerwk*)tp->mwp->work.ptr;
 
 	// Draw air on specific animations
+
 	if (pwp->mj.mtnmode == 2)
 	{
-		if (pwp->mj.actwkptr == SONIC_ACTIONS[5] || pwp->mj.actwkptr == SONIC_ACTIONS[6] || pwp->mj.actwkptr == SONIC_ACTIONS[18])
+		if (pwp->mj.action == 11 || pwp->mj.action == 12 || pwp->mj.action == 13)
 		{
 			DrawShadowAir(twp, pwp->mj.actwkptr, pwp->mj.nframe);
 		}
 	}
 	else
 	{
-		if (pwp->mj.action == 11 || pwp->mj.action == 12 || pwp->mj.action == 13)
+		if (pwp->mj.reqaction == 11 || pwp->mj.reqaction == 12 || pwp->mj.reqaction == 13)
 		{
-			DrawShadowAir(twp, pwp->mj.plactptr[pwp->mj.action].actptr, pwp->mj.nframe);
+			DrawShadowAir(twp, pwp->mj.plactptr[pwp->mj.reqaction].actptr, pwp->mj.nframe);
 		}
 	}
 }
