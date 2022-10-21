@@ -1,8 +1,10 @@
 #include "pch.h"
+#include "SADXModLoader.h"
+#include "FunctionHook.h"
 #include "utils.h"
 #include "effects.h"
 
-static Trampoline* Sonic_Display_t = nullptr;
+FunctionHook<void, task*> Sonic_Display_h(0x4948C0);
 static NJS_OBJECT* ShadowAir_Object = nullptr;
 static int NodeCount = 0;
 
@@ -11,16 +13,16 @@ static void __cdecl Air_CallBack(NJS_MODEL_SADX* model, int, int)
 	switch (NodeCount)
 	{
 	case 23:
-		late_DrawModel(ShadowAir_Object->child->sibling->basicdxmodel, 0);
+		late_DrawModel(ShadowAir_Object->child->sibling->basicdxmodel, LATE_MAT);
 		break;
 	case 24:
-		late_DrawModel(ShadowAir_Object->child->sibling->sibling->basicdxmodel, 0);
+		late_DrawModel(ShadowAir_Object->child->sibling->sibling->basicdxmodel, LATE_MAT);
 		break;
 	case 18:
-		late_DrawModel(ShadowAir_Object->child->basicdxmodel, 0);
+		late_DrawModel(ShadowAir_Object->child->basicdxmodel, LATE_MAT);
 		break;
 	case 19:
-		late_DrawModel(ShadowAir_Object->child->sibling->sibling->sibling->basicdxmodel, 0);
+		late_DrawModel(ShadowAir_Object->child->sibling->sibling->sibling->basicdxmodel, LATE_MAT);
 		break;
 	}
 
@@ -37,13 +39,13 @@ static void DrawShadowAir(taskwk* twp, NJS_ACTION* action, float frame)
 	njRotateZ(0, twp->ang.z);
 	njRotateX(0, twp->ang.x);
 	njRotateY(0, -0x8000 - twp->ang.y);
-	DrawAction(action, frame, 0, 0.0f, Air_CallBack);
+	DrawAction(action, frame, LATE_MAT, 0.0f, Air_CallBack);
 	njPopMatrixEx();
 }
 
 static void Sonic_Display_r(task* tp)
 {
-	CALL_ORIGINAL(Sonic_Display)(tp);
+	Sonic_Display_h.Original(tp);
 
 	auto twp = tp->twp;
 	auto pwp = (playerwk*)tp->mwp->work.ptr;
@@ -76,7 +78,7 @@ void Effects_Init()
 
 		if (ShadowAir_Object)
 		{
-			Sonic_Display_t = new Trampoline(0x4948C0, 0x4948C7, Sonic_Display_r);
+			Sonic_Display_h.Hook(Sonic_Display_r);
 		}
 	}
 }

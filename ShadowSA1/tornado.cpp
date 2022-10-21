@@ -1,4 +1,6 @@
 #include "pch.h"
+#include "SADXModLoader.h"
+#include "FunctionHook.h"
 #include "utils.h"
 #include "tornado.h"
 
@@ -13,7 +15,7 @@ static bool CheckIfShadowPlane(NJS_MODEL_SADX* model)
 	return ShadowPlaneMdl->getlabel(model) != "";
 }
 
-static void __cdecl TornadoCallBack(NJS_MODEL_SADX* model, int flgs)
+static void __cdecl TornadoCallBack(NJS_MODEL_SADX* model, LATE flgs)
 {
 	// If the currently drawn model is part of SHADOW_PLANE, we use the character's texlist instead
 	if (CheckIfShadowPlane(model))
@@ -29,7 +31,7 @@ static void __cdecl TornadoCallBack(NJS_MODEL_SADX* model, int flgs)
 	}
 }
 
-static void __cdecl njAction_Queue_Tornado(NJS_ACTION* action, float frame, QueuedModelFlagsB flags)
+static void __cdecl njAction_Queue_Tornado(NJS_ACTION* action, float frame, LATE flags)
 {
 	DrawAction(action, frame, flags, 0.0f, TornadoCallBack);
 }

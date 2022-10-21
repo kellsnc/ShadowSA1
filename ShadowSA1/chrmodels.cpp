@@ -1,14 +1,14 @@
 #include "pch.h"
+#include "SADXModLoader.h"
+#include "FunctionHook.h"
 #include "config.h"
 #include "utils.h"
 #include "chrmodels.h"
 
 DataArray(PL_JOIN_VERTEX, sonic_jv_list, 0x3C55E28, 37);
-DataArray(PL_ACTION, sonic_action, 0x3C56210, 146);
+DataPointer(NJS_OBJECT, SonicPointingHand_Object, 0x2DD8708);
 
 #define INIT_WELD(id, base, mdlA, mdlB, table) sonic_jv_list[id] = { SONIC_OBJECTS[base], SONIC_OBJECTS[mdlA], SONIC_OBJECTS[mdlB], static_cast<char>(LengthOfArray(table) / 2), PL_JOIN_SRC, 0, 0, nullptr, (uint16_t*)table }
-
-DataPointer(NJS_OBJECT, SonicPointingHand_Object, 0x2DD8708);
 
 static ModelInfo* SHADOW_OBJECT_000;
 static ModelInfo* SHADOW_OBJECT_022;
@@ -28,8 +28,8 @@ static AnimationFile* SHADOW_ACTION_006;
 static AnimationFile* SHADOW_ACTION_018;
 static AnimationFile* SHADOW_MOTION_000;
 
-static Trampoline* InitSonicAnimData_t = nullptr;
-static Trampoline* InitSonicWeldInfo_t = nullptr;
+FunctionHook<void> InitSonicWeldInfo_h(0x7D0B50);
+FunctionHook<void> InitSonicAnimData_h(0x7CEC90);
 
 static const uint16_t Shadow_UpperArmIndices[] = {
 	0, 2,
@@ -85,7 +85,7 @@ static void __cdecl InitNPCSonicWeldInfo_r()
 static void __cdecl InitSonicWeldInfo_r()
 {
 	// Call original to allow the game to initialize Metal Sonic welds.
-	CALL_ORIGINAL(InitSonicWeldInfo)();
+	InitSonicWeldInfo_h.Original();
 
 	// Sonic
 	INIT_WELD(0, 0, 1, 2, Shadow_UpperArmIndices);
@@ -124,7 +124,7 @@ static void __cdecl InitSonicWeldInfo_r()
 static void __cdecl InitSonicAnimData_r()
 {
 	// Call original to allow the game to initialize the other animation
-	CALL_ORIGINAL(InitSonicAnimData)();
+	InitSonicAnimData_h.Original(),
 
 	sonic_action[11].frame = 0.4f;
 	sonic_action[11].racio = 0.5f;
@@ -402,7 +402,7 @@ void HookCHRMODELS()
 	ReplaceSonicPointingFinger();
 
 	// Replace welds
-	InitSonicWeldInfo_t = new Trampoline((int)InitSonicWeldInfo, (int)InitSonicWeldInfo + 0x5, InitSonicWeldInfo_r);
+	InitSonicWeldInfo_h.Hook(InitSonicWeldInfo_r);
 	WriteJump(InitNPCSonicWeldInfo, InitNPCSonicWeldInfo_r);
 
 	if (config::bCustomAnims)
@@ -410,6 +410,6 @@ void HookCHRMODELS()
 		ReplaceSonicAnims();
 
 		// Set new animation settings
-		InitSonicAnimData_t = new Trampoline((int)InitSonicAnimData, (int)InitSonicAnimData + 0x5, InitSonicAnimData_r);
+		InitSonicAnimData_h.Hook(InitSonicAnimData_r);
 	}
 }
