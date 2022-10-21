@@ -1,0 +1,2 @@
+365077,..\B_CHNAM_E\B_SONIC_e.png,512x64
+365083,..\B_CHNAM_E\b_supersonic_e.png,512x64

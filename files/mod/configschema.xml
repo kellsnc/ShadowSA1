@@ -5,7 +5,6 @@
       <Property name="Anims" type="bool" defaultvalue="True" display="Enable Animations" />
       <Property name="Tornado" type="bool" defaultvalue="True" display="Enable Tornado changes (beta)" />
       <Property name="Air" type="bool" defaultvalue="True" display="Enable air effect" />
-      <Property name="Icon" type="bool" defaultvalue="True" display="Enable icon" />
     </Group>
   </Groups>
 </ConfigSchema>

@@ -1,6 +1,5 @@
 #include "pch.h"
 #include "config.h"
-#include "icons.h"
 #include "tornado.h"
 #include "effects.h"
 #include "chrmodels.h"
@@ -18,12 +17,6 @@ extern "C"
 
 		// Replace Sonic stuff in CHRMODELS.DLL
 		HookCHRMODELS();
-
-		// Replace life icon and itemboxes 1up icon
-		if (config::bIcons)
-		{
-			Icons_Init();
-		}
 
 		// Air effect under shoes
 		if (config::bAirEffects)

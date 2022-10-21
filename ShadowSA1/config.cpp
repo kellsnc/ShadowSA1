@@ -5,7 +5,6 @@ namespace config
 {
 	std::string modPath;
 
-	bool bIcons         = true;
 	bool bAirEffects    = true;
 	bool bTornadoHack   = true;
 	bool bCustomAnims   = true;
@@ -19,7 +18,6 @@ namespace config
 
 		if (group)
 		{
-			bIcons         = group->getBool("Icon", bIcons);
 			bAirEffects    = group->getBool("Air", bAirEffects);
 			bTornadoHack   = group->getBool("Tornado", bTornadoHack);
 			bCustomAnims   = group->getBool("Anims", bCustomAnims);
