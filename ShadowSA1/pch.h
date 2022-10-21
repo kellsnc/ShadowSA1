@@ -8,7 +8,6 @@
 #include "ModelInfo.h"
 #include "AnimationFile.h"
 
-#include "mod.h"
 #include "utils.h"
 
 #endif
