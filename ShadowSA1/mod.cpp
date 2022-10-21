@@ -1,41 +1,38 @@
 #include "pch.h"
+#include "config.h"
 #include "icons.h"
 #include "tornado.h"
 #include "effects.h"
 #include "chrmodels.h"
 
-std::string ModPath;
-
 static void __cdecl SetLSDColor()
 {
-	SetMaterial(0.8f, 0.96f, 0.4f, 0.f);
+	SetMaterial(0.8f, 0.96f, 0.4f, 0.0f);
 }
 
 extern "C"
 {
 	__declspec(dllexport) void __cdecl Init(const char* path, const HelperFunctions& helperFunctions)
 	{
-		const IniFile* config = new IniFile(std::string(path) + "\\config.ini");
-
-		ModPath = path;
+		config::init(path);
 
 		// Replace Sonic stuff in CHRMODELS.DLL
-		HookCHRMODELS(config);
+		HookCHRMODELS();
 
 		// Replace life icon and itemboxes 1up icon
-		if (config->getBool("", "Icon", true))
+		if (config::bIcons)
 		{
 			Icons_Init();
 		}
 
 		// Air effect under shoes
-		if (config->getBool("", "Air", true))
+		if (config::bAirEffects)
 		{
 			Effects_Init();
 		}
 
 		// Replace low-poly Sonic on the Tornado by low-poly Shadow
-		if (config->getBool("", "Tornado", true))
+		if (config::bTornadoHack)
 		{
 			Tornado_init();
 		}
@@ -52,8 +49,6 @@ extern "C"
 		helperFunctions.ReplaceFile("system\\SONIC.pvm", "system\\SHADOW_DC.pvm");
 		helperFunctions.ReplaceFile("system\\SUPERSONIC.pvm", "system\\SUPERSHADOW_DC.pvm");
 		helperFunctions.ReplaceFile("system\\SON_EFF.pvm", "system\\SHADOW_EFF_DC.pvm");
-
-		delete config;
 	}
 
 	__declspec(dllexport) ModInfo SADXModInfo = { ModLoaderVer };

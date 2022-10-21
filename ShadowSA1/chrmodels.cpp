@@ -1,4 +1,5 @@
 #include "pch.h"
+#include "config.h"
 #include "utils.h"
 #include "chrmodels.h"
 
@@ -394,7 +395,7 @@ static void ReplaceSonicPointingFinger()
 	}
 }
 
-void HookCHRMODELS(const IniFile* config)
+void HookCHRMODELS()
 {
 	ReplaceSonicModels();
 	ReplaceSonicShapeMotions();
@@ -404,7 +405,7 @@ void HookCHRMODELS(const IniFile* config)
 	InitSonicWeldInfo_t = new Trampoline((int)InitSonicWeldInfo, (int)InitSonicWeldInfo + 0x5, InitSonicWeldInfo_r);
 	WriteJump(InitNPCSonicWeldInfo, InitNPCSonicWeldInfo_r);
 
-	if (config->getBool("", "Anims", true))
+	if (config::bCustomAnims)
 	{
 		ReplaceSonicAnims();
 

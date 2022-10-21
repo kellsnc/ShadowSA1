@@ -1,9 +1,9 @@
 #include "pch.h"
-#include "utils.h"
+#include "config.h"
 
 ModelInfo* OpenModel(std::string path)
 {
-	path = ModPath + "\\models\\" + path;
+	path = config::modPath + "\\models\\" + path;
 
 	auto file = new ModelInfo(path.c_str());
 
@@ -21,7 +21,7 @@ ModelInfo* OpenModel(std::string path)
 
 AnimationFile* OpenAnim(std::string path)
 {
-	path = ModPath + "\\models\\" + path;
+	path = config::modPath + "\\models\\" + path;
 
 	auto file = new AnimationFile(path.c_str());
 
